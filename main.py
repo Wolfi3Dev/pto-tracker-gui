@@ -187,73 +187,6 @@ class PTOManager:
         print(f"Remaining PTO: {remaining} hours")
         print("=" * 50)
 
-
-def run_terminal_interface():
-    """Run the terminal interface for the PTO manager."""
-    pto = PTOManager()
-    
-    while True:
-        print("\nPTO Manager - Terminal Interface")
-        print("1. View PTO Summary")
-        print("2. List PTO Requests")
-        print("3. Add PTO Request")
-        print("4. Edit PTO Request")
-        print("5. Remove PTO Request")
-        print("6. Set Yearly PTO Hours")
-        print("7. Exit")
-        
-        choice = input("\nEnter choice (1-7): ")
-        
-        if choice == "1":
-            pto.show_summary()
-            pto.list_pto_requests()
-        
-        elif choice == "2":
-            pto.list_pto_requests()
-        
-        elif choice == "3":
-            date = input("Enter date (MM-DD-YY): ")
-            half_day_input = input("Is this a half day? (y/n): ").lower()
-            is_half_day = half_day_input.startswith("y")
-            note = input("Enter note (optional): ")
-            pto.add_pto_request(date, is_half_day, note)
-        
-        elif choice == "4":
-            date = input("Enter date to edit (MM-DD-YY): ")
-            
-            new_date_input = input("Enter new date (MM-DD-YY) or leave blank to keep current: ")
-            new_date = new_date_input if new_date_input else None
-            
-            half_day_input = input("Is this a half day? (y/n) or leave blank to keep current: ").lower()
-            is_half_day = None
-            if half_day_input:
-                is_half_day = half_day_input.startswith("y")
-            
-            note_input = input("Enter new note or leave blank to keep current: ")
-            note = note_input if note_input else None
-            
-            pto.edit_pto_request(date, new_date, is_half_day, note)
-        
-        elif choice == "5":
-            date = input("Enter date to remove (MM-DD-YY): ")
-            pto.remove_pto_request(date)
-        
-        elif choice == "6":
-            hours_input = input("Enter yearly PTO hours: ")
-            try:
-                hours = float(hours_input)
-                pto.set_yearly_pto_hours(hours)
-            except ValueError:
-                print("Please enter a valid number.")
-        
-        elif choice == "7":
-            print("Exiting PTO Manager. Goodbye!")
-            break
-        
-        else:
-            print("Invalid choice. Please try again.")
-
-
 def run_gui():
     """Run a simple GUI for the PTO manager using tkinter."""
     try:
@@ -261,7 +194,8 @@ def run_gui():
         from tkinter import ttk, messagebox, simpledialog
     except ImportError:
         print("Tkinter not available. Please install it or use the terminal interface.")
-        return run_terminal_interface()
+        import sys
+        sys.exit(1)
     
     pto = PTOManager()
     
